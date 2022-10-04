@@ -5,11 +5,6 @@ import subprocess
 import whisper
 import sys
 
-# Install dependencies using pip. Solution found at:
-# https://stackoverflow.com/questions/12332975/installing-python-module-within-code
-def install(package):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-
 # Download mp3 audio of a Youtube video. Credit to Stokry
 # https://dev.to/stokry/download-youtube-video-to-mp3-with-python-26p
 def audio():
