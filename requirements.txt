@@ -1,2 +1,3 @@
+torch
 youtube_dl
 git+https://github.com/openai/whisper.git
