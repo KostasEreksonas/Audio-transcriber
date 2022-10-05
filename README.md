@@ -13,4 +13,4 @@ Table of Contents
 
 2. Run a program with Python3
 
-`python3 transcriber.py <URL>`
+`python3 transcriber.py -u <URL>`
