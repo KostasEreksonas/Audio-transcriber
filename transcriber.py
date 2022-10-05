@@ -3,6 +3,7 @@
 import youtube_dl
 import subprocess
 import whisper
+import getopt
 import torch
 import sys
 
@@ -11,7 +12,17 @@ audiofile = "audio.mp3"
 # Download mp3 audio of a Youtube video. Credit to Stokry
 # https://dev.to/stokry/download-youtube-video-to-mp3-with-python-26p
 def audio():
-    video_info = youtube_dl.YoutubeDL().extract_info(url = sys.argv[1],download=False)
+    argv = sys.argv[1:]
+    try:
+        opts,args = getopt.getopt(argv, "u:")
+    except :
+        print("Usage: python3 transcriber.py -u <URL>")
+
+    for opt, arg in opts:
+        if opt in ['-u']:
+            URL = arg
+
+    video_info = youtube_dl.YoutubeDL().extract_info(url=URL,download=False)
     options={
         'format':'bestaudio/best',
         'keepvideo':False,
