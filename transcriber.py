@@ -12,17 +12,18 @@ audiofile = "audio.mp3"
 # Download mp3 audio of a Youtube video. Credit to Stokry
 # https://dev.to/stokry/download-youtube-video-to-mp3-with-python-26p
 def audio():
+    url = None
     argv = sys.argv[1:]
     try:
-        opts,args = getopt.getopt(argv, "u:")
+        opts,args = getopt.getopt(argv, "u:",["url="])
     except :
-        print("Usage: python3 transcriber.py -u <URL>")
+        print("Usage: python3 transcriber.py -u <url>")
 
     for opt, arg in opts:
-        if opt in ['-u']:
-            URL = arg
+        if opt in ['-u', '--url']:
+            url = arg
 
-    video_info = youtube_dl.YoutubeDL().extract_info(url=URL,download=False)
+    video_info = youtube_dl.YoutubeDL().extract_info(url=url,download=False)
     options={
         'format':'bestaudio/best',
         'keepvideo':False,
