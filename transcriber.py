@@ -48,23 +48,21 @@ def main():
 	# Select speech recognition model
     name = input("Select speech recognition model name (tiny, base, small, medium, large): ")
     model = whisper.load_model(name,device=checkDevice())
+    # Save transcribed text to file
+    result = model.transcribe(audiofile)
+    with open('transcription.txt', 'a') as file:
+        file.write(result["text"])
+        file.write("\n")
 
     choice = input("Do you want to translate audio transcription to English? (Yes/No) ")
     if (choice == "Yes"):
         # Translate transcribed text. Credit to Harsh Jain at educative.io
         # https://www.educative.io/answers/how-do-you-translate-text-using-python
         translator = Translator() # Create an instance of Translator() class
-        # Transcribe text from audio file, translate it to English and write it to translation.txt
-        result = model.transcribe(audiofile)
-        translation = translator.translate(result["text"])
+        with open('transcription.txt', 'r') as transcription:
+            translation = translator.translate(transcription)
         with open('translation.txt', 'a') as file:
-            file.write(translation)
-            file.write("\n")
-    elif (choice == "No"):
-        # Save transcribed text to file
-        result = model.transcribe(audiofile)
-        with open('transcription.txt', 'a') as file:
-            file.write(result["text"])
+            file.write(translation.text)
             file.write("\n")
 
 if __name__ == "__main__":
