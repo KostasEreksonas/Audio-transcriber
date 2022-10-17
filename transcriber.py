@@ -60,7 +60,8 @@ def main():
         # https://www.educative.io/answers/how-do-you-translate-text-using-python
         translator = Translator() # Create an instance of Translator() class
         with open('transcription.txt', 'r') as transcription:
-            translation = translator.translate(transcription)
+            contents = transcription.read()
+            translation = translator.translate(contents)
         with open('translation.txt', 'a') as file:
             file.write(translation.text)
             file.write("\n")
