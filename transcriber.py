@@ -56,7 +56,7 @@ def main():
         with open('transcription.txt', 'a') as file:
             file.write(result["text"])
             file.write("\n")
-    else if (choice == "No"):
+    elif (choice == "No"):
         # Translate transcribed text. Credit to Harsh Jain at educative.io
         # https://www.educative.io/answers/how-do-you-translate-text-using-python
         transaltor = Translator() # Create an instance of Translator() class
