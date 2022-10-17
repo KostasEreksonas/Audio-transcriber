@@ -7,7 +7,7 @@ import getopt
 import torch
 import sys
 
-audiofile = "audio.mp3"
+audiofile = "audio.mp3" # Save audio file as audio.mp3
 
 # Download mp3 audio of a Youtube video. Credit to Stokry
 # https://dev.to/stokry/download-youtube-video-to-mp3-with-python-26p
