@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from googletrans import Translator
 import youtube_dl
 import subprocess
 import whisper
@@ -48,11 +49,23 @@ def main():
     name = input("Select speech recognition model name (tiny, base, small, medium, large): ")
     model = whisper.load_model(name,device=checkDevice())
 
-    # Save transcribed text to file
-    result = model.transcribe(audiofile)
-    with open('transcription.txt', 'a') as file:
-        file.write(result["text"])
-        file.write("\n")
+    choice = input("Do you want to translate audio transcription to English? (Yes/No)")
+    if (choice == "Yes"):
+        # Save transcribed text to file
+        result = model.transcribe(audiofile)
+        with open('transcription.txt', 'a') as file:
+            file.write(result["text"])
+            file.write("\n")
+    else if (choice == "No"):
+        # Translate transcribed text. Credit to Harsh Jain at educative.io
+        # https://www.educative.io/answers/how-do-you-translate-text-using-python
+        transaltor = Translator() # Create an instance of Translator() class
+        # Transcribe text from audio file, translate it to English and write it to translation.txt
+        result = model.transcribe(audiofile)
+        translation = translator.translate(result["text"])
+        with open('translation.txt', 'a') as file:
+            file.write(translation)
+            file.write("\n")
 
 if __name__ == "__main__":
     main()
