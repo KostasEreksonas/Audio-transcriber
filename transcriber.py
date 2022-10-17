@@ -49,7 +49,7 @@ def main():
     name = input("Select speech recognition model name (tiny, base, small, medium, large): ")
     model = whisper.load_model(name,device=checkDevice())
 
-    choice = input("Do you want to translate audio transcription to English? (Yes/No)")
+    choice = input("Do you want to translate audio transcription to English? (Yes/No) ")
     if (choice == "Yes"):
         # Translate transcribed text. Credit to Harsh Jain at educative.io
         # https://www.educative.io/answers/how-do-you-translate-text-using-python
