@@ -53,7 +53,7 @@ def main():
     if (choice == "Yes"):
         # Translate transcribed text. Credit to Harsh Jain at educative.io
         # https://www.educative.io/answers/how-do-you-translate-text-using-python
-        transaltor = Translator() # Create an instance of Translator() class
+        translator = Translator() # Create an instance of Translator() class
         # Transcribe text from audio file, translate it to English and write it to translation.txt
         result = model.transcribe(audiofile)
         translation = translator.translate(result["text"])
