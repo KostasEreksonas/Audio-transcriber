@@ -7,6 +7,7 @@ import whisper
 import getopt
 import torch
 import sys
+import re
 
 audiofile = "audio.mp3" # Save audio file as audio.mp3
 
@@ -62,8 +63,9 @@ def main():
         with open('transcription.txt', 'r') as transcription:
             contents = transcription.read()
             translation = translator.translate(contents)
+            edited_text = re.sub('.', '.\n', translation.text) # Put a newline character after each sentence
         with open('translation.txt', 'a') as file:
-            file.write(translation.text)
+            file.write(edited_text)
             file.write("\n")
 
 if __name__ == "__main__":
