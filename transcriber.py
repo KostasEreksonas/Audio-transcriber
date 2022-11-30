@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# Usage: python3 transcriber.py -u, --url <URL>
+
 from googletrans import Translator
 import youtube_dl
 import subprocess
