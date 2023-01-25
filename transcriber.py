@@ -37,7 +37,7 @@ def audio():
     with youtube_dl.YoutubeDL(options) as ydl:
         ydl.download([video_info['webpage_url']])
 
-# Check wether CUDA is available or not
+# Check CUDA availability
 def checkDevice():
     if (torch.cuda.is_available() == 1):
         DEVICE = "cuda"
