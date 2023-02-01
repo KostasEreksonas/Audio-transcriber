@@ -1,6 +1,4 @@
-re
 torch
-getopt
 youtube_dl
 googletrans==4.0.0rc1
 git+https://github.com/openai/whisper.git
