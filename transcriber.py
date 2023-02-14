@@ -45,15 +45,13 @@ def checkDevice():
         DEVICE = "cpu"
     return DEVICE
 
-def translateResult(orgFile, transFile, text):
-    # Translate transcribed text. Credit to Harsh Jain at educative.io
-    # https://www.educative.io/answers/how-do-you-translate-text-using-python
-    translator = Translator() # Create an instance of Translator() class
-    with open(orgFile, 'r') as transcription:
-        contents = transcription.read()
-        translation = translator.translate(contents)
-    with open(transFile, 'a') as file:
-        file.write(translation.text)
+def getResult():
+	# Select speech recognition model
+    modelName = input("Select speech recognition model name (tiny, base, small, medium, large): ")
+    model = whisper.load_model(modelName,device=checkDevice())
+    # Save transcribed text to file
+    result = model.transcribe(audiofile)
+    formatResult('transcription.txt', result["text"])
 
 # Put a newline character after each sentence
 def formatResult(fileName, text):
@@ -64,18 +62,19 @@ def formatResult(fileName, text):
     if (choice == "Yes"):
         translateResult('transcription.txt', 'translation.txt', formatText)
 
-def getResult():
-	# Select speech recognition model
-    modelName = input("Select speech recognition model name (tiny, base, small, medium, large): ")
-    model = whisper.load_model(modelName,device=checkDevice())
-    # Save transcribed text to file
-    result = model.transcribe(audiofile)
-    formatResult('transcription.txt', result["text"])
+def translateResult(orgFile, transFile, text):
+    # Translate transcribed text. Credit to Harsh Jain at educative.io
+    # https://www.educative.io/answers/how-do-you-translate-text-using-python
+    translator = Translator() # Create an instance of Translator() class
+    with open(orgFile, 'r') as transcription:
+        contents = transcription.read()
+        translation = translator.translate(contents)
+    with open(transFile, 'a') as file:
+        file.write(translation.text)
 
 def main():
     getAudio() # Download an mp3 audio file to transcribe to text
     getResult() # Get transcription
-
 
 if __name__ == "__main__":
     main()
