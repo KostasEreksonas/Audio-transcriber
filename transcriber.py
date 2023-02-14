@@ -53,7 +53,7 @@ def main():
     model = whisper.load_model(name,device=checkDevice())
     # Save transcribed text to file
     result = model.transcribe(audiofile)
-    edited_transcription = re.sub('.', '.\n', result["text"]) # Put a newline character after each sentence
+    edited_transcription = re.sub('\.', '.\n', result["text"]) # Put a newline character after each sentence
     with open('transcription.txt', 'a') as file:
         file.write(edited_transcription)
         file.write("\n")
@@ -66,7 +66,7 @@ def main():
         with open('transcription.txt', 'r') as transcription:
             contents = transcription.read()
             translation = translator.translate(contents)
-            edited_translation = re.sub('.', '.\n', translation.text) # Put a newline character after each sentence
+            edited_translation = re.sub('\.', '.\n', translation.text) # Put a newline character after each sentence
         with open('translation.txt', 'a') as file:
             file.write(edited_translation)
 
