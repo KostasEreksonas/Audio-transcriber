@@ -59,7 +59,7 @@ def formatResult(fileName, text):
     with open(fileName, 'a') as file:
         file.write(formatText)
         choice = input("Do you want to translate audio transcription to English? (Yes/No) ")
-    if (choice == "Yes"):
+    if (choice == "Yes" or choice == "Y"):
         translateResult('transcription.txt', 'translation.txt', formatText)
 
 def translateResult(orgFile, transFile, text):
