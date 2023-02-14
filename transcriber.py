@@ -24,10 +24,11 @@ def getAudio():
         print("Usage: python3 transcriber.py -u <url>")
     for opt, arg in opts:
         if opt in ['-u', '--url']:
-            url = arg
-            match = re.search("shorts/", url)
+            match = re.search("shorts/", arg)
             if (bool(match) == True):
-                url = re.sub("shorts/", "watch?v=", url)
+                url = re.sub("shorts/", "watch?v=", arg)
+            else:
+                url = arg
     video_info = youtube_dl.YoutubeDL().extract_info(url=url,download=False)
     options={
         'format':'bestaudio/best',
