@@ -46,14 +46,13 @@ def checkDevice():
     return DEVICE
 
 def getResult():
-	# Select speech recognition model
+    # Select speech recognition model
     modelName = input("Select speech recognition model name (tiny, base, small, medium, large): ")
     model = whisper.load_model(modelName,device=checkDevice())
-    # Save transcribed text to file
     result = model.transcribe(audiofile)
     formatResult('transcription.txt', result["text"])
 
-# Put a newline character after each sentence
+# Put a newline character after each sentence and prompt user for translation
 def formatResult(fileName, text):
     formatText = re.sub('\.', '.\n', text)
     with open(fileName, 'a') as file:
@@ -74,7 +73,7 @@ def translateResult(orgFile, transFile, text):
 
 def main():
     getAudio() # Download an mp3 audio file to transcribe to text
-    getResult() # Get transcription
+    getResult() # Get audio transcription and translation if needed
 
 if __name__ == "__main__":
     main()
