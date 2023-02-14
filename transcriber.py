@@ -24,6 +24,7 @@ def getAudio():
         print("Usage: python3 transcriber.py -u <url>")
     for opt, arg in opts:
         if opt in ['-u', '--url']:
+            # If Youtube shorts URL is given, convert it to normal video URL
             match = re.search("shorts/", arg)
             if (bool(match) == True):
                 url = re.sub("shorts/", "watch?v=", arg)
