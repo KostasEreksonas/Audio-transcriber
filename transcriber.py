@@ -1,93 +1,107 @@
 #!/usr/bin/env python3
-
-# Usage: python3 transcriber.py -u, --url <URL>
+"""Audio transcriber using OpenAI's Whisper speech recognition model.
+    Usage: python3 transcriber.py -u, --url <URL>
+"""
+import getopt
+import re
+import sys
+import torch
+import whisper
 
 from googletrans import Translator
 import youtube_dl
-import subprocess
-import whisper
-import getopt
-import torch
-import sys
-import re
 
-audiofile = "audio.mp3" # Save audio file as audio.mp3
 
-# If Youtube shorts URL is given, convert it to normal video URL
-def matchPattern(pattern, arg):
+AUDIOFILE = "audio.mp3"  # Save audio file as audio.mp3
+
+
+def match_pattern(pattern, arg):
+    """Convert it to normal video URL if YouTube shorts URL is given."""
     match = re.search(pattern, arg)
-    if (bool(match) == True):
+    if bool(match):
         url = re.sub(pattern, "watch?v=", arg)
     else:
         url = arg
     return url
 
-# Download mp3 audio of a Youtube video. Credit to Stokry
-# https://dev.to/stokry/download-youtube-video-to-mp3-with-python-26p
-def getAudio():
+
+def get_audio():
+    """
+    Download mp3 audio of a YouTube video. Credit to Stokry.
+    https://dev.to/stokry/download-youtube-video-to-mp3-with-python-26p
+    """
     url = None
     argv = sys.argv[1:]
     try:
-        opts,args = getopt.getopt(argv, "u:",["url="])
-    except :
+        opts, args = getopt.getopt(argv, "u:", ["url="])
+    except:
         print("Usage: python3 transcriber.py -u <url>")
     for opt, arg in opts:
         if opt in ['-u', '--url']:
-            url = matchPattern("shorts/", arg)
-    video_info = youtube_dl.YoutubeDL().extract_info(url=url,download=False)
-    options={
-        'format':'bestaudio/best',
-        'keepvideo':False,
-        'outtmpl':audiofile,
+            url = arg
+            match = re.search("shorts/", url)
+            if bool(match):
+                url = re.sub("shorts/", "watch?v=", url)
+    video_info = youtube_dl.YoutubeDL().extract_info(url=url, download=False)
+    options = {
+        'format': 'bestaudio/best',
+        'keepvideo': False,
+        'outtmpl': AUDIOFILE,
     }
     with youtube_dl.YoutubeDL(options) as ydl:
         ydl.download([video_info['webpage_url']])
 
-# Display a message when the script is working in the background
+
 def banner(text):
+    """Display a message when the script is working in the background"""
     print(f"# {text} #")
 
-# Check CUDA availability
-def checkDevice():
-    if (torch.cuda.is_available() == 1):
-        DEVICE = "cuda"
+
+def check_device():
+    """Check CUDA availability."""
+    if torch.cuda.is_available() == 1:
+        device = "cuda"
     else:
-        DEVICE = "cpu"
-    return DEVICE
+        device = "cpu"
+    return device
 
-def getResult():
-    # Select speech recognition model
-    modelName = input("Select speech recognition model name (tiny, base, small, medium, large): ")
-    banner("Transcribing text")
-    model = whisper.load_model(modelName,device=checkDevice())
-    result = model.transcribe(audiofile)
-    formatResult('transcription.txt', result["text"])
 
-# Put a newline character after each sentence and prompt user for translation
-def formatResult(fileName, text):
-    formatText = re.sub('\.', '.\n', text)
-    banner("Writing transcription to text file")
-    with open(fileName, 'a') as file:
-        file.write(formatText)
+def get_result():
+    """Get speech recognition model."""
+    model_name = input("Select speech recognition model name (tiny, base, small, medium, large): ")
+    model = whisper.load_model(model_name, device=check_device())
+    result = model.transcribe(AUDIOFILE)
+    format_result('transcription.txt', result["text"])
+
+
+def format_result(file_name, text):
+    """Put a newline character after each sentence and prompt user for translation."""
+    format_text = re.sub('\.', '.\n', text)
+    with open(file_name, 'a', encoding="utf-8") as file:
+        file.write(format_text)
         choice = input("Do you want to translate audio transcription to English? (Yes/No) ")
-    if (choice == "Yes" or choice == "Y"):
-        translateResult('transcription.txt', 'translation.txt')
+    if choice == "Yes":
+        translate_result('transcription.txt', 'translation.txt', format_text)
 
-def translateResult(orgFile, transFile):
-    # Translate transcribed text. Credit to Harsh Jain at educative.io
-    # https://www.educative.io/answers/how-do-you-translate-text-using-python
-    translator = Translator() # Create an instance of Translator() class
-    banner("Translating text")
-    with open(orgFile, 'r') as transcription:
+
+def translate_result(org_file, trans_file):
+    """
+    Translate transcribed text. Credit to Harsh Jain at educative.io
+    https://www.educative.io/answers/how-do-you-translate-text-using-python
+    """
+    translator = Translator()  # Create an instance of Translator() class
+    with open(org_file, 'r', encoding="utf-8") as transcription:
         contents = transcription.read()
         translation = translator.translate(contents)
-    banner("Writing translation to text file")
-    with open(transFile, 'a') as file:
+    with open(trans_file, 'a', encoding="utf-8") as file:
         file.write(translation.text)
 
+
 def main():
-    getAudio() # Download an mp3 audio file to transcribe to text
-    getResult() # Get audio transcription and translation if needed
+    """Main function."""
+    get_audio()  # Download an mp3 audio file to transcribe to text
+    get_result()  # Get audio transcription and translation if needed
+
 
 if __name__ == "__main__":
     main()
