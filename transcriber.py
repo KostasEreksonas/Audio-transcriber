@@ -13,6 +13,15 @@ import re
 
 audiofile = "audio.mp3" # Save audio file as audio.mp3
 
+# If Youtube shorts URL is given, convert it to normal video URL
+def matchPattern(arg):
+    match = re.search("shorts/", arg)
+    if (bool(match) == True):
+        url = re.sub("shorts/", "watch?v=", arg)
+    else:
+        url = arg
+    return url
+
 # Download mp3 audio of a Youtube video. Credit to Stokry
 # https://dev.to/stokry/download-youtube-video-to-mp3-with-python-26p
 def getAudio():
@@ -24,12 +33,8 @@ def getAudio():
         print("Usage: python3 transcriber.py -u <url>")
     for opt, arg in opts:
         if opt in ['-u', '--url']:
-            # If Youtube shorts URL is given, convert it to normal video URL
-            match = re.search("shorts/", arg)
-            if (bool(match) == True):
-                url = re.sub("shorts/", "watch?v=", arg)
-            else:
-                url = arg
+            url = matchPattern(arg)
+            print(f"URL: {url}")
     video_info = youtube_dl.YoutubeDL().extract_info(url=url,download=False)
     options={
         'format':'bestaudio/best',
