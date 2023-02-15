@@ -34,7 +34,6 @@ def getAudio():
     for opt, arg in opts:
         if opt in ['-u', '--url']:
             url = matchPattern(arg)
-            print(f"URL: {url}")
     video_info = youtube_dl.YoutubeDL().extract_info(url=url,download=False)
     options={
         'format':'bestaudio/best',
