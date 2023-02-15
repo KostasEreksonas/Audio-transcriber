@@ -43,6 +43,7 @@ def getAudio():
     with youtube_dl.YoutubeDL(options) as ydl:
         ydl.download([video_info['webpage_url']])
 
+# Display a message when the script is working in the background
 def banner(text):
     print(f"# {text} #")
 
