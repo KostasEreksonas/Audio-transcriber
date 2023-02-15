@@ -39,6 +39,9 @@ def getAudio():
     with youtube_dl.YoutubeDL(options) as ydl:
         ydl.download([video_info['webpage_url']])
 
+def banner(text):
+    print(f"# {text} #")
+
 # Check CUDA availability
 def checkDevice():
     if (torch.cuda.is_available() == 1):
@@ -50,6 +53,7 @@ def checkDevice():
 def getResult():
     # Select speech recognition model
     modelName = input("Select speech recognition model name (tiny, base, small, medium, large): ")
+    banner("Transcribing text")
     model = whisper.load_model(modelName,device=checkDevice())
     result = model.transcribe(audiofile)
     formatResult('transcription.txt', result["text"])
@@ -57,6 +61,7 @@ def getResult():
 # Put a newline character after each sentence and prompt user for translation
 def formatResult(fileName, text):
     formatText = re.sub('\.', '.\n', text)
+    banner("Writing transcription to text file")
     with open(fileName, 'a') as file:
         file.write(formatText)
         choice = input("Do you want to translate audio transcription to English? (Yes/No) ")
@@ -67,9 +72,11 @@ def translateResult(orgFile, transFile, text):
     # Translate transcribed text. Credit to Harsh Jain at educative.io
     # https://www.educative.io/answers/how-do-you-translate-text-using-python
     translator = Translator() # Create an instance of Translator() class
+    banner("Translating text")
     with open(orgFile, 'r') as transcription:
         contents = transcription.read()
         translation = translator.translate(contents)
+    banner("Writing translation to text file")
     with open(transFile, 'a') as file:
         file.write(translation.text)
 
