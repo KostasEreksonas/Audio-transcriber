@@ -71,9 +71,9 @@ def formatResult(fileName, text):
         file.write(formatText)
         choice = input("Do you want to translate audio transcription to English? (Yes/No) ")
     if (choice == "Yes" or choice == "Y"):
-        translateResult('transcription.txt', 'translation.txt', formatText)
+        translateResult('transcription.txt', 'translation.txt')
 
-def translateResult(orgFile, transFile, text):
+def translateResult(orgFile, transFile):
     # Translate transcribed text. Credit to Harsh Jain at educative.io
     # https://www.educative.io/answers/how-do-you-translate-text-using-python
     translator = Translator() # Create an instance of Translator() class
