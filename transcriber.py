@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Audio transcriber using OpenAI's Whisper speech recognition model.
-    Usage: python3 transcriber.py -u, --url <URL>
+"""
+Audio transcriber using OpenAI's Whisper speech recognition model.
+Usage: python3 transcriber.py -u, --url <URL>
 """
 import getopt
 import re
