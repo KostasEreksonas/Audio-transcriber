@@ -17,7 +17,7 @@ AUDIOFILE = "audio.mp3"  # Save audio file as audio.mp3
 
 
 def match_pattern(pattern, arg):
-    """Convert it to normal video URL if YouTube shorts URL is given."""
+    """If YouTube shorts URL is given, convert it to standard URL."""
     match = re.search(pattern, arg)
     if bool(match):
         url = re.sub(pattern, "watch?v=", arg)
