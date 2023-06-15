@@ -26,13 +26,11 @@ def match_pattern(pattern, arg):
     return url
 
 
-def get_audio():
+def get_audio(url, argv):
     """
     Download mp3 audio of a YouTube video. Credit to Stokry.
     https://dev.to/stokry/download-youtube-video-to-mp3-with-python-26p
     """
-    url = None
-    argv = sys.argv[1:]
     try:
         opts, args = getopt.getopt(argv, "u:", ["url="])
     except:
@@ -101,9 +99,8 @@ def translate_result(org_file, trans_file):
 
 def main():
     """Main function."""
-    get_audio()  # Download an mp3 audio file to transcribe to text
-    get_result()  # Get audio transcription and translation if needed
-
+    get_audio(None,sys.argv[1:])    # Download an mp3 audio file to transcribe to text
+    get_result()            # Get audio transcription and translation if needed
 
 if __name__ == "__main__":
     main()
