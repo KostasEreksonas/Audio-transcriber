@@ -3,9 +3,9 @@ Simple Python audio transcriber using OpenAI's Whisper speech recognition model
 
 Table of Contents
 =================
-* [Installation Instructions](#Installation-Instructions)
+* [Instructions](#Instructions)
 
-# Installation Instructions
+# Instructions
 
 1. Install required packages with pip
 
