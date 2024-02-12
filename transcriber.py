@@ -12,7 +12,6 @@ import whisper
 from googletrans import Translator
 import yt_dlp as youtube_dl
 
-
 AUDIOFILE = "audio.mp3"  # Save audio file as audio.mp3
 
 
