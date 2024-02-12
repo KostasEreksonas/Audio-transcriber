@@ -3,3 +3,5 @@ include
 lib
 lib64
 pyvenv.cfg
+etc
+share
