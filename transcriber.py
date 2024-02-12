@@ -3,17 +3,16 @@
 Audio transcriber using OpenAI's Whisper speech recognition model.
 Usage: python3 transcriber.py -u, --url <URL>
 """
+import os
 import getopt
 import re
 import sys
 import torch
 import whisper
-
 from googletrans import Translator
 import yt_dlp as youtube_dl
 
 AUDIOFILE = "audio.mp3"  # Save audio file as audio.mp3
-
 
 def match_pattern(pattern, arg):
     """If YouTube shorts URL is given, convert it to standard URL."""
@@ -98,6 +97,7 @@ def translate_result(org_file, trans_file):
 
 def main():
     """Main function."""
+    os.chdir('outputs')
     get_audio(None,sys.argv[1:])    # Download an mp3 audio file to transcribe to text
     get_result()            # Get audio transcription and translation if needed
 
