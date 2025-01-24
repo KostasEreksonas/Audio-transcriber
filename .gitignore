@@ -4,4 +4,11 @@
 !README.md
 !requirements.txt
 !transcriber.py
-!outputs/README
+!v1/
+!v1/*
+!v1/outputs/
+!v1/outputs/README
+!v2/
+!v2/*
+!v2/outputs/
+!v2/outputs/README
