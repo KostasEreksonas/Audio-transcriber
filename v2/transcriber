@@ -1,0 +1,103 @@
+#!/bin/bash
+
+delimiter="------------------------------------------------------------------------------------------------------------"
+
+selectModel(){
+	# Select whisper model
+	PS3="[+] Choose model: "
+	models=("tiny" "base" "small" "medium" "large" "turbo")
+	select model in "${models[@]}"; do
+		case "${model}" in
+			"tiny")
+				printf "%s\n" "${model}"
+				break
+				;;
+			"base")
+				printf "%s\n" "${model}"
+				break
+				;;
+			"small")
+				printf "%s\n" "${model}"
+				break
+				;;
+			"medium")
+				printf "%s\n" "${model}"
+				break
+				;;
+			"large")
+				printf "%s\n" "${model}"
+				break
+				;;
+			"turbo")
+				printf "%s\n" "${model}"
+				break
+				;;
+		esac
+	done
+}
+
+downloadAudio(){
+	# Download audio to transcribe
+	url="${1}"
+
+	cd outputs/
+	printf "%s\n" "${delimiter}"
+	printf "[+] Downloading audio\n"
+	printf "%s\n" "${delimiter}"
+	yt-dlp -x --audio-format mp3 "${url}" --output audio.mp3 --quiet
+	cd ../
+}
+
+checkDependencies(){
+	# Check if dependencies are met
+	if ! which yt-dlp 2>/dev/null 1>&2; then missing+=("yt-dlp"); fi
+}
+
+if [[ $# -eq 0 ]]; then
+	printf "Missing argument -u. Usage: ./transcriber -u <url>\n"
+	exit 1
+elif [[ $# -gt 2 ]]; then
+	printf "To many arguments. Usage: ./transcriber -u <url>\n"
+	exit 1
+fi
+
+OPTSTRING=":u:"
+while getopts "${OPTSTRING}" opt; do
+	case "${opt}" in
+		u)
+			url="${OPTARG}"
+			;;
+		:)
+			printf "Option -${OPTARG} requires an argument.\n"
+			exit 1
+			;;
+		?)
+			printf "Invalid option -${OPTARG}\n"
+			exit 1
+			;;
+	esac
+done
+
+missing=()
+
+checkDependencies
+
+if ! [[ -z "${missing[*]}" ]]; then
+	printf "%s\n" "${delimiter}"
+	printf "| [+] Missing dependencies: %s\n" "${missing[*]}"
+	printf "%s\n" "${delimiter}"
+else
+	model="$(selectModel)"
+
+	printf "%s\n" "${delimiter}"
+	printf "[+] Model: %s\n" "${model}"
+	printf "%s\n" "${delimiter}"
+
+	downloadAudio "${url}"
+
+	printf "%s\n" "${delimiter}"
+	printf "[+] Transcribing audio\n"
+	printf "%s\n" "${delimiter}"
+
+	sh -c "python3 transcriber.py ${model}"
+fi
