@@ -26,4 +26,8 @@ Table of Contents
 
 4. Run a program with Python3
 
+4.1. For v1:
 `python3 transcriber.py -u, --url <URL>`
+
+4.2. For v2:
+`./transcriber -u <url>`
