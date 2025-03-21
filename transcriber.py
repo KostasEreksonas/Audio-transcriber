@@ -16,15 +16,19 @@ mel = whisper.log_mel_spectrogram(audio, n_mels=model.dims.n_mels).to(model.devi
 
 # detect the spoken language and write to results file
 _, probs = model.detect_language(mel)
-print(f"Detected language: {max(probs, key=probs.get)}")
-with open(result_file, "w") as file:
-    file.write(f"Detected language: {max(probs, key=probs.get)}\n")
+language_detected = max(probs, key=probs.get)
+print(f"Detected language: {language_detected}")
+
+with open(result_file, "a") as file:
+    file.write(f"Detected language: {language_detected}\n")
 
 # decode the audio
 options = whisper.DecodingOptions()
 result = whisper.decode(model, mel, options)
 
 # write the recognized text to file
-with open(result_file, "w") as file:
+with open(result_file, "a") as file:
+    file.write("\nTranscription:\n")
     file.write(result.text)
+
 print(f"Transcription saved at: {result_file}")
