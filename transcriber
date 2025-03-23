@@ -100,4 +100,6 @@ else
 	printf "%s\n" "${delimiter}"
 
 	sh -c "python3 transcriber.py ${model}"
+
+	cd outputs/ && rm "audio.mp3"
 fi
