@@ -1,4 +1,4 @@
 git+https://github.com/openai/whisper.git
 googletrans
 torch
-git+https://github.com/yt-dlp/yt-dlp/archive/master.tar.gz
+yt-dlp
